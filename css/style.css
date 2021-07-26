@@ -1,0 +1,30 @@
+/*You are also responsible for the look and feel of the app, so don’t forget a custom font, color palette, layout with semantic HTML, and so on.*/
+
+*{
+  box-sizing: border-box;
+}
+
+
+main{
+  max-width: 900px;
+}
+
+#chooseItems {
+  margin-left: 150px;
+  margin-right: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+#chooseItems div {
+  width: 367.6px;
+  padding: 2%;
+}
+
+#chooseItems img {
+  margin-top: 8%;
+  height: 220px;
+  width: 300px;
+}
