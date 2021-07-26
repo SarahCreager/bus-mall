@@ -2,9 +2,7 @@
 
 console.log('Greetings Earthlings');
 
-//
-
-
+//display three products at a time, side-by-side-by- (this or that)
 
 
 
