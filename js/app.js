@@ -13,11 +13,6 @@ console.log('Greetings Earthlings');
 // For each of the three images, increment its property of times it has been shown by one.
 
 
-
-
-
-
-
 // --------------------------------Global Variables--------------------------------//
 
 // total of 25 selections allowed. Increment till we hit 25.
