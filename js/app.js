@@ -23,34 +23,32 @@ const centerH2Elem = document.getElementById('centerItemH2');
 const rightImgElem = document.getElementById('rightItemImg');
 const rightH2Elem = document.getElementById('rightItemH2');
 
-// defining left, center, and right item variables. value is null because null states that it has no value. Its explicitly nothing
+// defining left, center, and right item variables. Null states that the Object is explicitly nothing to start.
 let leftItem = null;
 let centerItem = null;
 let rightItem = null;
 
 //--------------------------------Constructor Function-----------------------------//
 
-// constructor function that creates an object associated with each product.
+// constructor function that creates an object associated with each Item.
 function Item(name, imgPath) {
   this.name = name;
   this.img = imgPath;
   this.votes = 0;
   this.views = 0;
-
-  // Item.allItems.push(this);this funiton should not do external processes its made to define features of a produt. need to make a new function. 
 }
 
-// array of all the instances of the constructor function Item. 
+// array of all the instances of the constructor function.
 Item.allItems = [];
 
 //----------------------------Constructor Related Stuff----------------------------//
 
-// tells which img and h2 should be updated on HTML page. leftItem.renderItem (leftImgElem, leftH2Elem).
+// takes in img and h2 references from our global variables above and renders a single image/h2 to each object. (leftItem.renderItem (leftImgElem, leftH2Elem).)
 Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
   img.alt = this.name;
   h2.textContent = this.name;
-  // For each of the three images, increment its property of times it has been shown by one.
+  // incrementing how many times the image has been shown.
   this.views++;
 }
 
@@ -59,8 +57,10 @@ Item.prototype.renderItem = function(img, h2) {
 
 // function that randomly generates three items from the array.
 function randomItems(){
-// /// includes is an array method that loops through array and gives us a true or false if that object or element exsits within the array. 
+
+  // created an array of leftItem, centerItem, and rightItem items to keep track of which have been used, so that items are not duplicates from the immediate previous set.
   const doNotUse = [leftItem, centerItem, rightItem];
+  // while the doNotUse array contains the leftItem, we randomize it and push a new left into the array.
   while (doNotUse.includes(leftItem)){
     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
     leftItem = Item.allItems [leftIndex];
@@ -69,6 +69,7 @@ function randomItems(){
   doNotUse.push(leftItem);
   console.log(doNotUse);
 
+  // while the doNotUse array contains the centerItem, we randomize it and push a new center item into the array.
   while (doNotUse.includes(centerItem)){
     let centerIndex =  Math.floor(Math.random() * Item.allItems.length);
     centerItem = Item.allItems [centerIndex];
@@ -76,19 +77,21 @@ function randomItems(){
   doNotUse.push(centerItem);
   console.log(doNotUse);
 
+  // while the doNotUse array contains the rightItem, we randomize it. We don't need to push this item because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it.
   while (doNotUse.includes(rightItem)){
     let rightIndex =  Math.floor(Math.random() * Item.allItems.length);
     rightItem = Item.allItems [rightIndex];
   }
-  // doNotUse.push(rightItem); don't need to do this again because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it. 
 }
 
+// renders the left, center and right items.
 function renderTheItems (){
   leftItem.renderItem(leftImgElem, leftH2Elem);
   centerItem.renderItem(centerImgElem, centerH2Elem);
   rightItem.renderItem(rightImgElem, rightH2Elem);
 }
 
+// renders the results to the page in the form of li.
 function renderResults(){
   // ulElem.textContent = '';
   for (let i=0; i < Item.allItems.length; i++){
@@ -101,11 +104,11 @@ function renderResults(){
   }
 }
 
-//when user clicks an image we want to record the item clicked. and generate three new products. Once click counter equals 25 (10 for testing) the user will see a button to click for results.(maybe a new function for this) 
+//when user clicks an image we want to record the item clicked. and generate three new products. Once click counter equals 25 the user will see a button to click for results.(maybe could add a new function to make button).
 function handleClick (e){
   // alert(e.target.id);
   let imageClicked = e.target.id;
-  //if they made a valid pick. aka cliked an image. we go into this code block and update how many selections they made and update vote count for image. then we need to choose 3 new images (randomItems) and render those images.
+  //if they made a valid pick. aka cliked an image. we go into this code block and update how many selections they made and update vote count for each image clicked. Then we need to choose 3 new images (randomItems) and render those images.
   if (imageClicked === 'leftItemImg' || imageClicked === 'centerItemImg' || imageClicked === 'rightItemImg') {
     clickCounter++;
     if (imageClicked === 'leftItemImg'){
@@ -126,6 +129,7 @@ function handleClick (e){
     renderTheItems();
   }
 
+  // once the alloted selections are up, we wipe the html in this section and add the button element. we also turn off the event listener for item clicks.
   if (clickCounter === 25){
     // alert('show item totals');
     itemContainerElem.textContent = '';
@@ -138,9 +142,11 @@ function handleClick (e){
   }
 }
 
+// once the button is clicked we show the results list and make the <canvas> element visible and create the bar chart. We also turn off the button listener.
 function handleButton(e){
   // alert(e.target.id);
   let buttonClicked = e.target.id;
+  //ensures the click that triggers an action is the button click. 
   if (buttonClicked === 'buttonSubmit') {
     renderResults();
     showChart();
@@ -149,25 +155,29 @@ function handleButton(e){
   }
 }
 
-// function to hide chart from the page until after submit button is hit
+// function to hide the bar chart from the page until after the submit button is hit
 function hideChart (){
   document.getElementById('myChart').style.visibility = 'hidden';
 }
 
-// function to show chart after submit button is hit. 
+// function to show the bar chart after submit button is hit. 
 function showChart (){
   document.getElementById('myChart').style.visibility = 'visible';
 }
 
 //-------------------------------------Add Event Listeners-------------------------//
 
+// event listener for item selections
 itemContainerElem.addEventListener('click', handleClick);
 
+// event listener for button click
 itemContainerElem.addEventListener('click', handleButton);
 
 //-------------------------------------Call Functions------------------------------//
 
-//could make a function that does the push for me. refactor this later. make it work then make it pretty. function that takes these as arguments, pass through consturctor funtion then pushes.
+//could make a function that does the push for me. refactor this later. make it work then make it pretty. could be a function that takes these as arguments, pass through consturctor function then pushes.
+
+// creating new instances of Item and pushing it into the allItems array. 
 Item.allItems.push(new Item('Bag', './img/bag.jpg'));
 Item.allItems.push(new Item('Banana', './img/banana.jpg'))
 Item.allItems.push(new Item('Bathroom', './img/bathroom.jpg'));
@@ -188,13 +198,18 @@ Item.allItems.push(new Item('Unicorn', './img/unicorn.jpg'));
 Item.allItems.push(new Item('Water-Can', './img/water-can.jpg'));
 Item.allItems.push(new Item('Wine-Glass', './img/wine-glass.jpg'));
 
+// calling function that randomizes 3 images.
 randomItems();
+
+// calling function that creates the left, center, and right items.
 renderTheItems();
+
+// hides the <canvas> element until the submit button is clicked.
 hideChart();
 
 //-------------------------------------Create Bar Chart------------------------------//
 
-
+// function that makes a bar chart with two datasets.
 function makeBarChart(){
   const ctx = document.getElementById('myChart').getContext('2d');
   let itemNames = [];
