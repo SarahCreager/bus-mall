@@ -121,7 +121,7 @@ function handleClick (e){
     renderTheItems();
   }
 
-  if (clickCounter === 5){
+  if (clickCounter === 25){
     // alert('show item totals');
     chooseItemElem.textContent = '';
     let buttonElem = document.createElement('button');
