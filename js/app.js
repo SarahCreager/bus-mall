@@ -10,11 +10,11 @@ console.log('Greetings Earthlings');
 
 // --------------------------------Global Variables--------------------------------//
 
-// total of 25 selections allowed. Increment till we hit 25.
+// total of 25 selections allowed. Will increment till we hit 25.
 let clickCounter = 0;
 
-// reference in HTML where the items will go.
-const chooseItemElem = document.getElementById('chooseItems');
+// reference in HTML where all the items will go.
+const itemContainerElem = document.getElementById('allItems');
 
 // left item HTML reference
 const leftImgElem = document.getElementById('leftItemImg');
@@ -28,7 +28,7 @@ const centerH2Elem = document.getElementById('centerItemH2');
 const rightImgElem = document.getElementById('rightItemImg');
 const rightH2Elem = document.getElementById('rightItemH2');
 
-// don't understand this yet.
+// defining left, center, and right item variables. value is null because null states that it has no value. Its explicitly nothing
 let leftItem = null;
 let centerItem = null;
 let rightItem = null;
@@ -41,21 +41,22 @@ function Item(name, imgPath) {
   this.name = name;
   this.img = imgPath;
   this.votes = 0;
-  this.imgShownCounter = 0;
+  this.views = 0;
 
-  Item.allItems.push(this);
+  // Item.allItems.push(this);this funiton should not do external processes its made to define features of a produt. need to make a new function. 
 }
 
-// array of all the Items created from (instances of) the constructor function. 
+// array of all the instances of the constructor function Item. 
 Item.allItems = [];
 
 //----------------------------Constructor Related Stuff----------------------------//
 
-// tells which img path and h2 text should be used for item.
+// tells which img and h2 should be updated on HTML page. leftItem.renderItem (leftImgElem, leftH2Elem).
 Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
+  img.alt = this.name;
   h2.textContent = this.name;
-  this.imgShownCounter++;
+  this.views++;
 }
 
 //----------------------------------Global Functions-------------------------------//
@@ -81,6 +82,30 @@ function randomItems(){
   }
 }
 
+//  //class example random Items function
+//   /// includes is an array method that loops through array and gives us a true or false if that object or element exsits within the array. 
+//   const doNotUse = [leftItem, centerItem, rightItem];
+//   while (doNotUse.includes(leftItem)){
+//     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
+//     leftItem = Item.allItems [leftIndex];
+//   }
+//   /// null, null, null is still in the array but we are adding a new value to the end of the array. 
+//   doNotUse.push(leftItem);
+//   console.log(doNotUse);
+
+//   while (doNotUse.includes(centerItem)){
+//     let centerIndex =  Math.floor(Math.random() * Item.allItems.length);
+//     centerItem = Item.allItems [centerIndex];
+//   }
+//   doNotUse.push(centerItem);
+//   console.log(doNotUse);
+
+//   while (doNotUse.includes(rightItem)){
+//     let rightIndex =  Math.floor(Math.random() * Item.allItems.length);
+//     rightItem = Item.allItems [rightIndex];
+//   }
+//   // doNotUse.push(rightItem); don't need to do this again because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it. 
+
 function renderTheItems (){
   leftItem.renderItem(leftImgElem, leftH2Elem);
   centerItem.renderItem(centerImgElem, centerH2Elem);
@@ -91,10 +116,10 @@ function renderResults(){
   // ulElem.textContent = '';
   for (let i=0; i < Item.allItems.length; i++){
     let ulElem = document.createElement('ul')
-    chooseItemElem.appendChild(ulElem);
+    itemContainerElem.appendChild(ulElem);
     let item = Item.allItems[i];
     let liElem = document.createElement('li');
-    liElem.textContent = `${item.name} had ${item.votes} votes and was seen ${item.imgShownCounter} times.`;
+    liElem.textContent = `${item.name} had ${item.votes} votes and was seen ${item.views} times.`;
     ulElem.appendChild(liElem);
   }
 }
@@ -103,6 +128,7 @@ function renderResults(){
 function handleClick (e){
   // alert(e.target.id);
   let imageClicked = e.target.id;
+  //if they made a valid pick. aka cliked an image. we go into this code block and update how many selections they made and update vote count for image. then we need to choose 3 new images (randomItems) and render those images.
   if (imageClicked === 'leftItemImg' || imageClicked === 'centerItemImg' || imageClicked === 'rightItemImg') {
     clickCounter++;
     if (imageClicked === 'leftItemImg'){
@@ -117,19 +143,21 @@ function handleClick (e){
       rightItem.votes++;
       console.log(rightItem);
     }
+    // choose 3 new random images
     randomItems();
+    // render three images
     renderTheItems();
   }
 
   if (clickCounter === 25){
     // alert('show item totals');
-    chooseItemElem.textContent = '';
+    itemContainerElem.textContent = '';
     let buttonElem = document.createElement('button');
     buttonElem.id = 'buttonSubmit';
     buttonElem.textContent = 'get results';
-    chooseItemElem.appendChild(buttonElem);
+    itemContainerElem.appendChild(buttonElem);
 
-    chooseItemElem.removeEventListener('click', handleClick);
+    itemContainerElem.removeEventListener('click', handleClick);
   }
 }
 
@@ -138,37 +166,38 @@ function handleButton(e){
   let buttonClicked = e.target.id;
   if (buttonClicked === 'buttonSubmit') {
     renderResults();
-    chooseItemElem.removeEventListener('click', handleButton);
+    itemContainerElem.removeEventListener('click', handleButton);
   }
 }
 
 //-------------------------------------Add Event Listeners-------------------------//
 
-chooseItemElem.addEventListener('click', handleClick);
+itemContainerElem.addEventListener('click', handleClick);
 
-chooseItemElem.addEventListener('click', handleButton);
+itemContainerElem.addEventListener('click', handleButton);
 
 //-------------------------------------Call Functions------------------------------//
 
-new Item('Bag', './images/bag.jpg');
-new Item('Banana', './images/banana.jpg');
-new Item('Bathroom', './images/bathroom.jpg');
-new Item('Boots', './images/boots.jpg');
-new Item('Breakfast', './images/breakfast.jpg');
-new Item('Bubblegum', './images/bubblegum.jpg');
-new Item('Chair', './images/chair.jpg');
-new Item('Cthulhu', './images/cthulhu.jpg');
-new Item('Dog-Duck', './images/dog-duck.jpg');
-new Item('Dragon', './images/dragon.jpg');
-new Item('Pen', './images/pen.jpg');
-new Item('Pet-Sweep', './images/pet-sweep.jpg');
-new Item('Scissors', './images/scissors.jpg');
-new Item('Shark', './images/shark.jpg');
-new Item('Sweep', './images/sweep.png');
-new Item('Tauntaun', './images/tauntaun.jpg');
-new Item('Unicorn', './images/unicorn.jpg');
-new Item('Water-Can', './images/water-can.jpg');
-new Item('Wine-Glass', './images/wine-glass.jpg');
+//could make a function that does the push for me. refactor this later. make it work then make it pretty. function that takes these as arguments, pass through consturctor funtion then pushes.
+Item.allItems.push(new Item('Bag', './img/bag.jpg'));
+Item.allItems.push(new Item('Banana', './img/banana.jpg'))
+Item.allItems.push(new Item('Bathroom', './img/bathroom.jpg'));
+Item.allItems.push(new Item('Boots', './img/boots.jpg'));
+Item.allItems.push(new Item('Breakfast', './img/breakfast.jpg'));
+Item.allItems.push(new Item('Bubblegum', './img/bubblegum.jpg'));
+Item.allItems.push(new Item('Chair', './img/chair.jpg'));
+Item.allItems.push(new Item('Cthulhu', './img/cthulhu.jpg'));
+Item.allItems.push(new Item('Dog-Duck', './img/dog-duck.jpg'));
+Item.allItems.push(new Item('Dragon', './img/dragon.jpg'));
+Item.allItems.push(new Item('Pen', './img/pen.jpg'));
+Item.allItems.push(new Item('Pet-Sweep', './img/pet-sweep.jpg'));
+Item.allItems.push(new Item('Scissors', './img/scissors.jpg'));
+Item.allItems.push(new Item('Shark', './img/shark.jpg'));
+Item.allItems.push(new Item('Sweep', './img/sweep.png'));
+Item.allItems.push(new Item('Tauntaun', './img/tauntaun.jpg'));
+Item.allItems.push(new Item('Unicorn', './img/unicorn.jpg'));
+Item.allItems.push(new Item('Water-Can', './img/water-can.jpg'));
+Item.allItems.push(new Item('Wine-Glass', './img/wine-glass.jpg'));
 
 randomItems();
 renderTheItems();

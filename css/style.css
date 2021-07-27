@@ -9,7 +9,7 @@ main{
   max-width: 900px;
 }
 
-#chooseItems {
+#allItems {
   margin-left: 150px;
   margin-right: 150px;
   display: flex;
@@ -18,12 +18,12 @@ main{
   align-items: stretch;
 }
 
-#chooseItems div {
+#allItems div {
   width: 367.6px;
   padding: 2%;
 }
 
-#chooseItems img {
+#allItems img {
   margin-top: 8%;
   height: 220px;
   width: 300px;
