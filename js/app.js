@@ -33,7 +33,6 @@ let leftItem = null;
 let centerItem = null;
 let rightItem = null;
 
-
 //--------------------------------Constructor Function-----------------------------//
 
 // constructor function that creates an object associated with each product.
@@ -81,6 +80,8 @@ function randomItems(){
     rightItem = Item.allItems [rightIndex];
   }
 }
+// Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
+
 
 //  //class example random Items function
 //   /// includes is an array method that loops through array and gives us a true or false if that object or element exsits within the array. 
@@ -166,8 +167,18 @@ function handleButton(e){
   let buttonClicked = e.target.id;
   if (buttonClicked === 'buttonSubmit') {
     renderResults();
+    showChart();
+    makeBarChart();
     itemContainerElem.removeEventListener('click', handleButton);
   }
+}
+
+function hideChart (){
+  document.getElementById('myChart').style.visibility = 'hidden';
+}
+
+function showChart (){
+  document.getElementById('myChart').style.visibility = 'visible';
 }
 
 //-------------------------------------Add Event Listeners-------------------------//
@@ -201,5 +212,80 @@ Item.allItems.push(new Item('Wine-Glass', './img/wine-glass.jpg'));
 
 randomItems();
 renderTheItems();
+hideChart();
+
+//-------------------------------------Create Bar Chart------------------------------//
+
+
+function makeBarChart(){
+  const ctx = document.getElementById('myChart').getContext('2d');
+  let itemNames = [];
+  let itemVotes = [];
+  let itemViews = [];
+  for (let i=0; i < Item.allItems.length; i++){
+    let item = Item.allItems[i];
+    itemNames.push(item.name);
+    itemVotes.push(item.votes);
+    itemViews.push(item.views);
+  }
+
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: itemNames,
+      datasets: [{
+        label: 'Votes',
+        data: itemVotes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: 'Views',
+        data: itemViews,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+
 
 
