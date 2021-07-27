@@ -3,11 +3,6 @@
 console.log('Greetings Earthlings');
 
 
-
-
-// For each of the three images, increment its property of times it has been shown by one.
-
-
 // --------------------------------Global Variables--------------------------------//
 
 // total of 25 selections allowed. Will increment till we hit 25.
@@ -55,6 +50,7 @@ Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
   img.alt = this.name;
   h2.textContent = this.name;
+  // For each of the three images, increment its property of times it has been shown by one.
   this.views++;
 }
 
@@ -63,49 +59,29 @@ Item.prototype.renderItem = function(img, h2) {
 
 // function that randomly generates three items from the array.
 function randomItems(){
-  let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
-  leftItem = Item.allItems [leftIndex];
-  let centerIndex = Math.floor(Math.random() * Item.allItems.length);
-  centerItem = Item.allItems [centerIndex];
-  let rightIndex = Math.floor(Math.random() * Item.allItems.length);
-  rightItem = Item.allItems [rightIndex];
+// /// includes is an array method that loops through array and gives us a true or false if that object or element exsits within the array. 
+  const doNotUse = [leftItem, centerItem, rightItem];
+  while (doNotUse.includes(leftItem)){
+    let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
+    leftItem = Item.allItems [leftIndex];
+  }
+  /// null, null, null is still in the array but we are adding a new value to the end of the array. 
+  doNotUse.push(leftItem);
+  console.log(doNotUse);
 
-  while (centerItem === null || centerItem === leftItem || centerItem === rightItem) {
-    centerIndex = Math.floor(Math.random() * Item.allItems.length);
+  while (doNotUse.includes(centerItem)){
+    let centerIndex =  Math.floor(Math.random() * Item.allItems.length);
     centerItem = Item.allItems [centerIndex];
   }
+  doNotUse.push(centerItem);
+  console.log(doNotUse);
 
-  while (rightItem === null || rightItem === leftItem || rightItem === centerItem) {
-    rightIndex = Math.floor(Math.random() * Item.allItems.length);
+  while (doNotUse.includes(rightItem)){
+    let rightIndex =  Math.floor(Math.random() * Item.allItems.length);
     rightItem = Item.allItems [rightIndex];
   }
+  // doNotUse.push(rightItem); don't need to do this again because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it. 
 }
-// Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
-
-
-//  //class example random Items function
-//   /// includes is an array method that loops through array and gives us a true or false if that object or element exsits within the array. 
-//   const doNotUse = [leftItem, centerItem, rightItem];
-//   while (doNotUse.includes(leftItem)){
-//     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
-//     leftItem = Item.allItems [leftIndex];
-//   }
-//   /// null, null, null is still in the array but we are adding a new value to the end of the array. 
-//   doNotUse.push(leftItem);
-//   console.log(doNotUse);
-
-//   while (doNotUse.includes(centerItem)){
-//     let centerIndex =  Math.floor(Math.random() * Item.allItems.length);
-//     centerItem = Item.allItems [centerIndex];
-//   }
-//   doNotUse.push(centerItem);
-//   console.log(doNotUse);
-
-//   while (doNotUse.includes(rightItem)){
-//     let rightIndex =  Math.floor(Math.random() * Item.allItems.length);
-//     rightItem = Item.allItems [rightIndex];
-//   }
-//   // doNotUse.push(rightItem); don't need to do this again because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it. 
 
 function renderTheItems (){
   leftItem.renderItem(leftImgElem, leftH2Elem);
@@ -173,10 +149,12 @@ function handleButton(e){
   }
 }
 
+// function to hide chart from the page until after submit button is hit
 function hideChart (){
   document.getElementById('myChart').style.visibility = 'hidden';
 }
 
+// function to show chart after submit button is hit. 
 function showChart (){
   document.getElementById('myChart').style.visibility = 'visible';
 }
