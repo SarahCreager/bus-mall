@@ -2,20 +2,10 @@
 
 console.log('Greetings Earthlings');
 
-// display three unique products by chance
-// total of 25 selections made
-// keep track of total number of votes
-// keep track of how many times each item was shown
-// keep track of the percentage of times that an item was clicked when it was shown.
 
 
 
 // For each of the three images, increment its property of times it has been shown by one.
-
-
-
-
-
 
 
 // --------------------------------Global Variables--------------------------------//
@@ -25,9 +15,6 @@ let clickCounter = 0;
 
 // reference in HTML where the items will go.
 const chooseItemElem = document.getElementById('chooseItems');
-
-// reference in HTML where list of items and clicked counts is kept.
-const ulElem = document.getElementById('itemClicks');
 
 // left item HTML reference
 const leftImgElem = document.getElementById('leftItemImg');
@@ -68,6 +55,7 @@ Item.allItems = [];
 Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
   h2.textContent = this.name;
+  this.imgShownCounter++;
 }
 
 //----------------------------------Global Functions-------------------------------//
@@ -100,12 +88,13 @@ function renderTheItems (){
 }
 
 function renderResults(){
-  ulElem.textContent = '';
-
+  // ulElem.textContent = '';
   for (let i=0; i < Item.allItems.length; i++){
+    let ulElem = document.createElement('ul')
+    chooseItemElem.appendChild(ulElem);
     let item = Item.allItems[i];
     let liElem = document.createElement('li');
-    liElem.textContent = `${item.name}: ${item.votes}`;
+    liElem.textContent = `${item.name} had ${item.votes} votes and was seen ${item.imgShownCounter} times.`;
     ulElem.appendChild(liElem);
   }
 }
@@ -132,16 +121,32 @@ function handleClick (e){
     renderTheItems();
   }
 
-  if (clickCounter === 10){
-    alert('show item totals')
-    renderResults();
+  if (clickCounter === 5){
+    // alert('show item totals');
+    chooseItemElem.textContent = '';
+    let buttonElem = document.createElement('button');
+    buttonElem.id = 'buttonSubmit';
+    buttonElem.textContent = 'get results';
+    chooseItemElem.appendChild(buttonElem);
+
     chooseItemElem.removeEventListener('click', handleClick);
+  }
+}
+
+function handleButton(e){
+  // alert(e.target.id);
+  let buttonClicked = e.target.id;
+  if (buttonClicked === 'buttonSubmit') {
+    renderResults();
+    chooseItemElem.removeEventListener('click', handleButton);
   }
 }
 
 //-------------------------------------Add Event Listeners-------------------------//
 
 chooseItemElem.addEventListener('click', handleClick);
+
+chooseItemElem.addEventListener('click', handleButton);
 
 //-------------------------------------Call Functions------------------------------//
 
@@ -167,4 +172,5 @@ new Item('Wine-Glass', './images/wine-glass.jpg');
 
 randomItems();
 renderTheItems();
+
 
