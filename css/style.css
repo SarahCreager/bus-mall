@@ -1,9 +1,60 @@
 /*You are also responsible for the look and feel of the app, so don’t forget a custom font, color palette, layout with semantic HTML, and so on.*/
 
+
+
+/* --------------------Global Styling-----------------------*/
 *{
   box-sizing: border-box;
 }
 
+body {
+  background: #7C948F;
+}
+
+/* ------------------------Header-----------------------*/
+
+header {
+  background-color: #4B6668;
+  display: flex;
+  border: 2px solid #B7C8C2;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header img, header nav,header nav a{
+  background-color: #4B6668;
+  color:#573F26;
+}
+
+header img {
+  background-color: #4B6668;
+  width: 15%;
+  height: 15%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+header nav{
+  width: 80%;
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+
+header nav a{
+  font-family: 'Sarabun', sans-serif;
+  display: inline;
+  color: #B7C8C2;
+  font-weight: 500;
+  letter-spacing: 2px;
+  font-size: 200%;
+}
+
+nav a:hover {
+  color: #07212B;
+ }
+
+/* -------------------index.html (MAIN)--------------------*/
 
 main{
   max-width: 900px;
@@ -28,3 +79,34 @@ main{
   height: 220px;
   width: 300px;
 }
+
+
+/* ------------------------Footer-----------------------*/
+footer {
+  background-color: #4B6668;
+  padding: 6%;
+  display: flex;
+  border: 2px solid #B7C8C2;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+ footer nav{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+footer nav a{
+  font-family: 'Sarabun', sans-serif;
+  display: inline;
+  color: #B7C8C2;
+  font-weight: 500;
+  letter-spacing: 2px;
+  font-size: 200%;
+  padding-right: 9.5%;
+}
+
+footer a:hover {
+  color: #07212B;
+ }
