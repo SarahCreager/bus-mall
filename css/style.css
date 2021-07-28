@@ -8,28 +8,24 @@
 }
 
 body {
-  background: #7C948F;
+  background: #F4F4F4;
 }
 
 /* ------------------------Header-----------------------*/
 
 header {
-  background-color: #4B6668;
+  background-color: #F4F4F4;
   display: flex;
-  border: 2px solid #B7C8C2;
   justify-content: flex-start;
   align-items: center;
 }
 
-header img, header nav,header nav a{
-  background-color: #4B6668;
-  color:#573F26;
-}
 
-header img {
-  background-color: #4B6668;
-  width: 15%;
-  height: 15%;
+header h1 {
+  font-family: 'Dawning of a New Day', cursive;
+  background-color: #F4F4F4;
+  color: #161616;
+  font-size: 400%;
   margin-top: 1%;
   margin-bottom: 1%;
 }
@@ -44,14 +40,14 @@ header nav{
 header nav a{
   font-family: 'Sarabun', sans-serif;
   display: inline;
-  color: #B7C8C2;
+  color: #373737;
   font-weight: 500;
   letter-spacing: 2px;
   font-size: 200%;
 }
 
 nav a:hover {
-  color: #07212B;
+  color: #888888;
  }
 
 /* -------------------index.html (MAIN)--------------------*/
@@ -83,10 +79,9 @@ main{
 
 /* ------------------------Footer-----------------------*/
 footer {
-  background-color: #4B6668;
+  background-color: #F4F4F4;
   padding: 6%;
   display: flex;
-  border: 2px solid #B7C8C2;
   justify-content: flex-start;
   align-items: center;
 }
@@ -100,7 +95,7 @@ footer {
 footer nav a{
   font-family: 'Sarabun', sans-serif;
   display: inline;
-  color: #B7C8C2;
+  color: #373737;
   font-weight: 500;
   letter-spacing: 2px;
   font-size: 200%;
@@ -108,5 +103,5 @@ footer nav a{
 }
 
 footer a:hover {
-  color: #07212B;
+  color: #888888;
  }

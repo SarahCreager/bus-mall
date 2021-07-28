@@ -3,6 +3,11 @@
 console.log('Greetings Earthlings');
 
 
+
+// try append child rather than hiding and rendering chart.
+
+
+
 // --------------------------------Global Variables--------------------------------//
 
 // total of 25 selections allowed. Will increment till we hit 25.
@@ -31,11 +36,11 @@ let rightItem = null;
 //--------------------------------Constructor Function-----------------------------//
 
 // constructor function that creates an object associated with each Item.
-function Item(name, imgPath) {
+function Item(name, imgPath, votes, views) {
   this.name = name;
   this.img = imgPath;
-  this.votes = 0;
-  this.views = 0;
+  this.votes = votes;
+  this.views = views;
 }
 
 // array of all the instances of the constructor function.
@@ -43,14 +48,14 @@ Item.allItems = [];
 
 //----------------------------Constructor Related Stuff----------------------------//
 
-// takes in img and h2 references from our global variables above and renders a single image/h2 to each object. (leftItem.renderItem (leftImgElem, leftH2Elem).)
+// takes in img and h2 references from our global variables above and renders a single image/h2 to each object in reference to its location in the html. (leftItem.renderItem (leftImgElem, leftH2Elem).)
 Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
-  img.alt = this.name;
+  h2.alt = this.name;
   h2.textContent = this.name;
   // incrementing how many times the image has been shown.
   this.views++;
-}
+};
 
 //----------------------------------Global Functions-------------------------------//
 
@@ -65,9 +70,8 @@ function randomItems(){
     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
     leftItem = Item.allItems [leftIndex];
   }
-  /// null, null, null is still in the array but we are adding a new value to the end of the array. 
+  /// null, null, null is still in the array but we are adding a new value to the end of the array.
   doNotUse.push(leftItem);
-  console.log(doNotUse);
 
   // while the doNotUse array contains the centerItem, we randomize it and push a new center item into the array.
   while (doNotUse.includes(centerItem)){
@@ -75,7 +79,6 @@ function randomItems(){
     centerItem = Item.allItems [centerIndex];
   }
   doNotUse.push(centerItem);
-  console.log(doNotUse);
 
   // while the doNotUse array contains the rightItem, we randomize it. We don't need to push this item because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it.
   while (doNotUse.includes(rightItem)){
@@ -85,7 +88,7 @@ function randomItems(){
 }
 
 // renders the left, center and right items.
-function renderTheItems (){
+function renderThreeItems (){
   leftItem.renderItem(leftImgElem, leftH2Elem);
   centerItem.renderItem(centerImgElem, centerH2Elem);
   rightItem.renderItem(rightImgElem, rightH2Elem);
@@ -95,7 +98,7 @@ function renderTheItems (){
 function renderResults(){
   // ulElem.textContent = '';
   for (let i=0; i < Item.allItems.length; i++){
-    let ulElem = document.createElement('ul')
+    let ulElem = document.createElement('ul');
     itemContainerElem.appendChild(ulElem);
     let item = Item.allItems[i];
     let liElem = document.createElement('li');
@@ -113,20 +116,17 @@ function handleClick (e){
     clickCounter++;
     if (imageClicked === 'leftItemImg'){
       leftItem.votes++;
-      console.log(leftItem);
     }
     if (imageClicked === 'centerItemImg'){
       centerItem.votes++;
-      console.log(centerItem);
     }
     if (imageClicked === 'rightItemImg'){
       rightItem.votes++;
-      console.log(rightItem);
     }
     // choose 3 new random images
     randomItems();
     // render three images
-    renderTheItems();
+    renderThreeItems();
   }
 
   // once the alloted selections are up, we wipe the html in this section and add the button element. we also turn off the event listener for item clicks.
@@ -146,11 +146,12 @@ function handleClick (e){
 function handleButton(e){
   // alert(e.target.id);
   let buttonClicked = e.target.id;
-  //ensures the click that triggers an action is the button click. 
+  //ensures the click that triggers an action is the button click.
   if (buttonClicked === 'buttonSubmit') {
     renderResults();
     showChart();
     makeBarChart();
+    putItemsInStorage();
     itemContainerElem.removeEventListener('click', handleButton);
   }
 }
@@ -160,9 +161,31 @@ function hideChart (){
   document.getElementById('myChart').style.visibility = 'hidden';
 }
 
-// function to show the bar chart after submit button is hit. 
+// function to show the bar chart after submit button is hit.
 function showChart (){
   document.getElementById('myChart').style.visibility = 'visible';
+}
+
+
+function putItemsInStorage (){
+  let stringifiedArray = JSON.stringify(Item.allItems);
+  localStorage.setItem('item', stringifiedArray);
+}
+
+
+/// need to somehow update vote and view count when storing new item
+function getItemsFromStorage(){
+  let itemsInStorage = localStorage.getItem('item');
+  if (itemsInStorage) {
+    let parsedItems = JSON.parse(itemsInStorage);
+    for (let i=0; i<parsedItems.length; i++) {
+      let item = parsedItems[i];
+      let newItem = new Item (item.name,item.imgPath, item.votes, item.views);
+      console.log('new item' + newItem);
+      randomItems();
+      renderThreeItems();
+    }
+  }
 }
 
 //-------------------------------------Add Event Listeners-------------------------//
@@ -175,38 +198,43 @@ itemContainerElem.addEventListener('click', handleButton);
 
 //-------------------------------------Call Functions------------------------------//
 
-//could make a function that does the push for me. refactor this later. make it work then make it pretty. could be a function that takes these as arguments, pass through consturctor function then pushes.
+function makeNewItems (name, imgPath, votes, views){
+  let newItem = new Item (name, imgPath, votes, views);
+  Item.allItems.push(newItem);
+}
 
-// creating new instances of Item and pushing it into the allItems array. 
-Item.allItems.push(new Item('Bag', './img/bag.jpg'));
-Item.allItems.push(new Item('Banana', './img/banana.jpg'))
-Item.allItems.push(new Item('Bathroom', './img/bathroom.jpg'));
-Item.allItems.push(new Item('Boots', './img/boots.jpg'));
-Item.allItems.push(new Item('Breakfast', './img/breakfast.jpg'));
-Item.allItems.push(new Item('Bubblegum', './img/bubblegum.jpg'));
-Item.allItems.push(new Item('Chair', './img/chair.jpg'));
-Item.allItems.push(new Item('Cthulhu', './img/cthulhu.jpg'));
-Item.allItems.push(new Item('Dog-Duck', './img/dog-duck.jpg'));
-Item.allItems.push(new Item('Dragon', './img/dragon.jpg'));
-Item.allItems.push(new Item('Pen', './img/pen.jpg'));
-Item.allItems.push(new Item('Pet-Sweep', './img/pet-sweep.jpg'));
-Item.allItems.push(new Item('Scissors', './img/scissors.jpg'));
-Item.allItems.push(new Item('Shark', './img/shark.jpg'));
-Item.allItems.push(new Item('Sweep', './img/sweep.png'));
-Item.allItems.push(new Item('Tauntaun', './img/tauntaun.jpg'));
-Item.allItems.push(new Item('Unicorn', './img/unicorn.jpg'));
-Item.allItems.push(new Item('Water-Can', './img/water-can.jpg'));
-Item.allItems.push(new Item('Wine-Glass', './img/wine-glass.jpg'));
+if (Item.allItems.length === 0) {
+  makeNewItems('Bag', './img/bag.jpg', 0, 0);
+  makeNewItems('Banana', './img/banana.jpg', 0, 0);
+  makeNewItems('Bathroom', './img/bathroom.jpg', 0, 0);
+  makeNewItems('Boots', './img/boots.jpg', 0, 0);
+  makeNewItems('Breakfast', './img/breakfast.jpg', 0, 0);
+  makeNewItems('Bubblegum', './img/bubblegum.jpg', 0, 0);
+  makeNewItems('Chair', './img/chair.jpg', 0, 0);
+  makeNewItems('Cthulhu', './img/cthulhu.jpg', 0, 0);
+  makeNewItems('Dog-Duck', './img/dog-duck.jpg', 0, 0);
+  makeNewItems('Dragon', './img/dragon.jpg', 0, 0);
+  makeNewItems('Pen', './img/pen.jpg', 0, 0);
+  makeNewItems('Pet-Sweep', './img/pet-sweep.jpg', 0, 0);
+  makeNewItems('Scissors', './img/scissors.jpg', 0, 0);
+  makeNewItems('Shark', './img/shark.jpg', 0, 0);
+  makeNewItems('Sweep', './img/sweep.png', 0, 0);
+  makeNewItems('Tauntaun', './img/tauntaun.jpg', 0, 0);
+  makeNewItems('Unicorn', './img/unicorn.jpg', 0, 0);
+  makeNewItems('Water-Can', './img/water-can.jpg', 0, 0);
+  makeNewItems('Wine-Glass', './img/wine-glass.jpg', 0, 0);
+}
 
 // calling function that randomizes 3 images.
 randomItems();
 
-// calling function that creates the left, center, and right items.
-renderTheItems();
+// calling function that creates the left, center, and right items. trying to move this into my makeNewItems broke my code. figure out how to consolidate later.
+renderThreeItems();
 
 // hides the <canvas> element until the submit button is clicked.
 hideChart();
 
+getItemsFromStorage();
 //-------------------------------------Create Bar Chart------------------------------//
 
 // function that makes a bar chart with two datasets.
@@ -222,6 +250,8 @@ function makeBarChart(){
     itemViews.push(item.views);
   }
 
+
+  // eslint-disable-next-line no-unused-vars
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
