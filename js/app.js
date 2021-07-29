@@ -2,12 +2,6 @@
 
 console.log('Greetings Earthlings');
 
-
-
-// try append child rather than hiding and rendering chart.
-
-
-
 // --------------------------------Global Variables--------------------------------//
 
 // total of 25 selections allowed. Will increment till we hit 25.
@@ -48,29 +42,28 @@ Item.allItems = [];
 
 //----------------------------Constructor Related Stuff----------------------------//
 
-// takes in img and h2 references from our global variables above and renders a single image/h2 to each object in reference to its location in the html. (leftItem.renderItem (leftImgElem, leftH2Elem).)
+// takes in img and h2 references from our global variables above and renders a single image/h2 in reference to its location in the html. (leftItem.renderItem (leftImgElem, leftH2Elem).)
 Item.prototype.renderItem = function(img, h2) {
   img.src = this.img;
-  h2.alt = this.name;
+  img.alt = this.name;
   h2.textContent = this.name;
   // incrementing how many times the image has been shown.
   this.views++;
 };
 
-//----------------------------------Global Functions-------------------------------//
+//---------------------------Global Functions-------------------------------//
 
-
-// function that randomly generates three items from the array.
+// function that randomly generates three unique items from the array.
 function randomItems(){
 
-  // created an array of leftItem, centerItem, and rightItem items to keep track of which have been used, so that items are not duplicates from the immediate previous set.
+  // created a doNotUse array of leftItem, centerItem, and rightItem to avoid duplicates.
   const doNotUse = [leftItem, centerItem, rightItem];
   // while the doNotUse array contains the leftItem, we randomize it and push a new left into the array.
   while (doNotUse.includes(leftItem)){
     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
     leftItem = Item.allItems [leftIndex];
   }
-  /// null, null, null is still in the array but we are adding a new value to the end of the array.
+  /// Add new value to leftItem to the end of the array.
   doNotUse.push(leftItem);
 
   // while the doNotUse array contains the centerItem, we randomize it and push a new center item into the array.
@@ -80,7 +73,7 @@ function randomItems(){
   }
   doNotUse.push(centerItem);
 
-  // while the doNotUse array contains the rightItem, we randomize it. We don't need to push this item because we already have checked against the others. We want to randomize it but we do not need to push it into the do not use list because the other two items will already be different from it.
+  // while the doNotUse array contains the rightItem, we randomize it. We don't need to push this item into the array because the other two items will already be different from it.
   while (doNotUse.includes(rightItem)){
     let rightIndex =  Math.floor(Math.random() * Item.allItems.length);
     rightItem = Item.allItems [rightIndex];
@@ -180,10 +173,8 @@ function getItemsFromStorage(){
     let parsedItems = JSON.parse(itemsInStorage);
     for (let i=0; i<parsedItems.length; i++) {
       let item = parsedItems[i];
-      let newItem = new Item (item.name,item.imgPath, item.votes, item.views);
-      console.log('new item' + newItem);
-      randomItems();
-      renderThreeItems();
+      let newItem = new Item(item.name, item.img, item.votes, item.views);
+      Item.allItems.push(newItem);
     }
   }
 }
@@ -234,6 +225,7 @@ renderThreeItems();
 // hides the <canvas> element until the submit button is clicked.
 hideChart();
 
+// gets items from storage.
 getItemsFromStorage();
 //-------------------------------------Create Bar Chart------------------------------//
 
