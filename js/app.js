@@ -66,7 +66,7 @@ function makeNewItems (name, imgPath, votes, views){
 // function that randomly generates three unique items from the array.
 function randomItems(){
   const doNotUse = [leftItem, centerItem, rightItem];
-  // while the doNotUse array contains the leftItem, we randomize it and push a new leftItem into the array.
+  // while the doNotUse array contains the leftItem, we randomize it and push a new leftItem into the array. still don't understand how it remains at 5 items long and then restarts, but it works.
   while (doNotUse.includes(leftItem)){
     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
     leftItem = Item.allItems [leftIndex];
@@ -163,7 +163,7 @@ function putItemsInStorage (){
 }
 
 
-// CODE BLOCK I'M HAVING ISSUES WITH. Am I still Having issues with randomization when pulling from storage?
+// still don't understand how votes are being added, but it works.
 function getItemsFromStorage(){
   let itemsInStorage = localStorage.getItem('item');
   if (itemsInStorage) {
@@ -174,8 +174,6 @@ function getItemsFromStorage(){
       newItem.votes = item.votes;
       newItem.views = item.views;
       Item.allItems.push(newItem);
-      // randomItems();
-      // renderThreeItems();
     }
   }
 }
@@ -189,6 +187,7 @@ itemContainerElem.addEventListener('click', handleClick);
 itemContainerElem.addEventListener('click', handleButton);
 
 //-------------------------------------Call Functions------------------------------//
+// pull items from storage if there are any.
 getItemsFromStorage();
 
 // only make Items if not already in storage.
@@ -219,13 +218,6 @@ randomItems();
 
 // calling function that creates the left, center, and right items on page.
 renderThreeItems();
-
-// gets items from storage.
-
-
-
-
-
 
 //-------------------------------------Create Bar Chart------------------------------//
 
