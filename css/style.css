@@ -1,6 +1,3 @@
-/*You are also responsible for the look and feel of the app, so don’t forget a custom font, color palette, layout with semantic HTML, and so on.*/
-
-
 
 /* --------------------Global Styling-----------------------*/
 *{
@@ -8,24 +5,26 @@
 }
 
 body {
-  background: #F4F4F4;
+  background: #D1CBC1;
 }
 
 /* ------------------------Header-----------------------*/
 
 header {
-  background-color: #F4F4F4;
+  background-color: #BFAC96;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  padding: 2%;
+  border-bottom: #E7DDCB 6px solid;
 }
 
-
 header h1 {
-  font-family: 'Dawning of a New Day', cursive;
-  background-color: #F4F4F4;
-  color: #161616;
-  font-size: 400%;
+  font-family: 'WindSong', cursive;
+  width: 90%;
+  text-align: center;
+  color: #807364;
+  font-size: 500%;
   margin-top: 1%;
   margin-bottom: 1%;
 }
@@ -40,50 +39,139 @@ header nav{
 header nav a{
   font-family: 'Sarabun', sans-serif;
   display: inline;
-  color: #373737;
+  color: #E7DDCB;
   font-weight: 500;
   letter-spacing: 2px;
   font-size: 200%;
 }
 
 nav a:hover {
-  color: #888888;
+  color: #403A32;
  }
 
 /* -------------------index.html (MAIN)--------------------*/
 
 main{
-  max-width: 900px;
+  padding-top: 8%;
+  margin-left: 100px;
+  margin-right:100px;
+  padding-bottom: 8%;
 }
 
+main h1 {
+  font-family: 'Sarabun', sans-serif;
+  width: 600px;
+  text-align: center;
+  color: #403A32;
+  font-size: 300%;
+  border: #BFAC96 solid 10px;
+  border-radius: 8px;
+  padding: 2%;
+  background-color: #E7DDCB;
+  margin:auto;
+  padding: 2%;
+}
+
+main h1:hover {
+  color: #807364;
+ }
+
 #allItems {
-  margin-left: 150px;
-  margin-right: 150px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: stretch;
+  align-items: center;
+  margin:auto;
 }
 
 #allItems div {
-  width: 367.6px;
   padding: 2%;
+  border: #BFAC96 solid 10px;
+  border-radius: 8px;
+  margin-top: 8%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 6%;
+  background-color: #807364;
 }
 
 #allItems img {
   margin-top: 8%;
   height: 220px;
   width: 300px;
+  border: #5B5750 solid 10px;
+  border-radius: 8px;
 }
 
+#allItems div h2 {
+  font-family: 'Sarabun', sans-serif;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E7DDCB;
+  font-size: 200%;
+  font-weight: 500;
+  margin:auto;
+  padding: 4%;
+}
+
+#buttonSubmit {
+  font-family: 'Sarabun', sans-serif;
+  width: 300px;
+  text-align: center;
+  color: #E7DDCB;
+  font-size: 200%;
+  border: #403A32 solid 10px;
+  border-radius: 8px;
+  padding: 2%;
+  background-color: #807364;
+  margin-left:auto;
+  margin-right:auto;
+  text-transform: uppercase;
+  margin-top: 6%;
+}
+
+#buttonSubmit:hover {
+  background-color: #BFAC96;
+}
+
+#canvasContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin:auto;
+}
+
+#myChart {
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+#canvasContainer ul{
+  margin:1%;
+}
+
+#canvasContainer li{
+  font-size: 150%;
+  color: #E7DDCB;
+  border: #BFAC96 solid 10px;
+  border-radius: 8px;
+  width: 550px;
+  background-color: #807364;
+  padding: 2%;
+  font-family: 'Sarabun', sans-serif;;
+}
 
 /* ------------------------Footer-----------------------*/
 footer {
-  background-color: #F4F4F4;
+  background-color: #BFAC96;
   padding: 6%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  border-top: #E7DDCB 6px solid;
 }
 
  footer nav{
@@ -92,10 +180,11 @@ footer {
   justify-content: center;
 
 }
+
 footer nav a{
   font-family: 'Sarabun', sans-serif;
   display: inline;
-  color: #373737;
+  color: #E7DDCB;
   font-weight: 500;
   letter-spacing: 2px;
   font-size: 200%;
@@ -103,5 +192,5 @@ footer nav a{
 }
 
 footer a:hover {
-  color: #888888;
+  color: #403A32;
  }

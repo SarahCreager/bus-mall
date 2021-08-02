@@ -66,7 +66,7 @@ function makeNewItems (name, imgPath, votes, views){
 // function that randomly generates three unique items from the array.
 function randomItems(){
   const doNotUse = [leftItem, centerItem, rightItem];
-  // while the doNotUse array contains the leftItem, we randomize it and push a new leftItem into the array. still don't understand how it remains at 5 items long and then restarts, but it works.
+  // while the doNotUse array contains the leftItem, we randomize it and push a new leftItem into the array.
   while (doNotUse.includes(leftItem)){
     let leftIndex =  Math.floor(Math.random() * Item.allItems.length);
     leftItem = Item.allItems [leftIndex];
@@ -98,7 +98,7 @@ function renderThreeItems (){
 function renderResultsList(){
   for (let i=0; i < Item.allItems.length; i++){
     let ulElem = document.createElement('ul');
-    itemContainerElem.appendChild(ulElem);
+    canvasContainerElem.appendChild(ulElem);
     let item = Item.allItems[i];
     let liElem = document.createElement('li');
     liElem.textContent = `${item.name} had ${item.votes} votes and was seen ${item.views} times.`;
@@ -145,6 +145,7 @@ function handleButton(e){
   let buttonClicked = e.target.id;
   //if the user clicks the button this code block is run.
   if (buttonClicked === 'buttonSubmit') {
+    itemContainerElem.textContent = '';
     let canvasElem =document.createElement('canvas');
     canvasElem.id ='myChart';
     canvasContainerElem.appendChild(canvasElem);
@@ -163,7 +164,7 @@ function putItemsInStorage (){
 }
 
 
-// still don't understand how votes are being added, but it works.
+// function to pull stringifiedArray from storage. This function parses the item and turns it back into an instance of constructor function Item, adjusting the views and votes to equal the new total.
 function getItemsFromStorage(){
   let itemsInStorage = localStorage.getItem('item');
   if (itemsInStorage) {
